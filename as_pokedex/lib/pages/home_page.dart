@@ -1,8 +1,8 @@
-import 'package:as_pokedex/model/pokemon_item.dart';
+import 'package:as_pokedex/core/model/pokemon_item.dart';
 import 'package:as_pokedex/pages/pokemon_detail.dart';
-import 'package:as_pokedex/repositories/pokemon_repository.dart';
+import 'package:as_pokedex/core/repositories/pokemon_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:as_pokedex/extensions/color_helper.dart';
+import 'package:as_pokedex/core/extensions/color_helper.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 class HomePage extends StatefulWidget {
@@ -38,7 +38,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _getAllPokemon() async {
-    // Se nunca carregou, usa o loader de tela inteira
     final withLoading = _pokemonList == null;
 
     if (withLoading) {
@@ -48,11 +47,9 @@ class _HomePageState extends State<HomePage> {
     final remoteList = await _pokemonRepository.getAll(
         limit: _pokemonListLimit, offset: _pokemonListOffset);
 
-    // Adiciona 20 para "passar de página"
-    _pokemonListOffset += 1000;
+    _pokemonListOffset += 151;
 
     final actualList = _pokemonList ?? [];
-    // Soma as duas listas e remove duplicatas
     final newList = (actualList + remoteList).toSet().toList();
 
     setState(() {
@@ -154,7 +151,7 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(9.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -168,7 +165,7 @@ class _HomePageState extends State<HomePage> {
                           pokemon.nameDisplay,
                           style: TextStyle(
                             color: cardColor.constrast(),
-                            fontSize: 18.0,
+                            fontSize: 16.0,
                           ),
                         ),
                       ],
@@ -235,7 +232,7 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.transparent,
       elevation: 0.0,
       title: Text(
-        "Let's GO Flutter",
+        "Pokedex",
         style: const TextStyle(color: Colors.black),
       ),
       bottom: PreferredSize(
